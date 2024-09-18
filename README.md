@@ -63,7 +63,6 @@ By contributing to this project, you agree that your contributions will be licen
 
 For any questions, issues, or contributions, feel free to contact us:
 
-- Email: [weihao.shen@healthyphoton.com](mailto:weihao.shen@healthyphoton.com)
 - Email: [openflux@healthyphoton.com](mailto:openflux@healthyphoton.com)
 - GitHub Issues: [GitHub Issue Tracker](https://github.com/HealthyPhoton/OpenFlux/issues)
 ## Acknowledgements
