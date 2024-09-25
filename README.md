@@ -27,7 +27,9 @@ In the Python3 environment, we need the following configuration：
 For Raspberry Pi setups, additional packages are needed:
 - RPi
 - pigpio
-
+## Result 
+### Raw flux 
+![e5ae0b914b0bc5c6128d6156c5132973.png](./_resources/e5ae0b914b0bc5c6128d6156c5132973.png)
 ## Contributing
 
 We welcome contributions from the community! If you'd like to contribute, please follow these steps:
@@ -63,6 +65,7 @@ By contributing to this project, you agree that your contributions will be licen
 
 For any questions, issues, or contributions, feel free to contact us:
 
+- Email: [weihao.shen@healthyphoton.com](mailto:weihao.shen@healthyphoton.com)
 - Email: [openflux@healthyphoton.com](mailto:openflux@healthyphoton.com)
 - GitHub Issues: [GitHub Issue Tracker](https://github.com/HealthyPhoton/OpenFlux/issues)
 ## Acknowledgements

@@ -271,7 +271,7 @@ def run_data_calculation(filename="flag_file.txt",extra_data_path=""):
         result_file_path = os.path.join(ec_flux_dir, 'EC_FLUX.csv')
         result_data = pd.DataFrame({
             'TIMESTAMP': [filtered_data['TIMESTAMP'].iloc[0]],
-            'flux': [raw_flux],
+            'flux': [raw_flux], # mg/(m^2 s) for CH4
             'friction_velocity': [friction_velocity],
             'concentration_mean': [concentration_mean],
             'u2_mean': [u2_mean],
