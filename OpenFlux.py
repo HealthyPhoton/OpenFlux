@@ -1,7 +1,16 @@
-# ===========================================================================================
-# Copyright (c)  2024 HealthyPhoton Technology. All rights reserved.
-# Licensed under the MIT License. See LICENSE file in the project root for details.
-# ===========================================================================================
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# Copyright 2024 HealthyPhoton Technology
 import datetime
 import threading
 import serial
@@ -17,6 +26,9 @@ stop_event = threading.Event()  # Events that control thread stopping
 # =======================================================================
 ser_wind = 0
 ser_ht8x00 = 0
+# ==============================================
+# Configure Raspberry PI and read data
+# ===============================================
 class softuart(threading.Thread):
     global data_dic
 
@@ -82,7 +94,9 @@ class softuart(threading.Thread):
                 break
         return bytes(text)
 
-
+# ======================================
+# Read and process data
+# ======================================
 def get_ht8x00_data():
     """
     Obtain HT8x00 data
@@ -152,8 +166,6 @@ def process_ht8x00_data(data):
     except Exception as e:
         print(f"Error while processing ht8x00 frame data: {e}")
 
-
-
 def process_wind_data(data):
     """
     Process the received frame of anemometer data
@@ -190,7 +202,9 @@ def read_data():
         get_ht8x00_data()
         get_wind_data()
         time.sleep(0.01)
-
+# ======================================
+# Save data
+# ======================================
 def write_data():
     """
     Write Thread
@@ -276,6 +290,7 @@ def save_data_to_local(data):
         file.write(data_line)
         # print("Write data successfully")
         file.flush()
+
 
 
 if __name__ == "__main__":
