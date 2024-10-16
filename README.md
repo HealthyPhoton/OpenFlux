@@ -27,9 +27,11 @@ In the Python3 environment, we need the following configuration：
 For Raspberry Pi setups, additional packages are needed:
 - RPi
 - pigpio
+## Notice 
+The time in the flux calculation results depends on the start time of the raw data
 ## Result 
 ### Raw flux 
-![e5ae0b914b0bc5c6128d6156c5132973.png](./_resources/e5ae0b914b0bc5c6128d6156c5132973.png)
+![h2od.png](./_resources/h2od.png)
 ## Contributing
 
 We welcome contributions from the community! If you'd like to contribute, please follow these steps:
@@ -49,8 +51,7 @@ We'd like to extend our thanks to the following people for their contributions:
 - [@Weihao Shen](https://github.com/savage1997) – Programme design, systems integration
 - [@Wenfeng Ni](https://github.com/ContributorName2) – Monitoring program development 
 - [@Haiming Qian](https://github.com/ContributorName2) – Raw flux calculation programme development
-
--  [@Huaiping Wang](https://github.com/ContributorName2) – Raspberry Pi monitoring program development 
+- [@Huaiping Wang](https://github.com/ContributorName2) – Raspberry Pi monitoring program development 
 
 If you'd like to become a contributor, see the [Contributing](#contributing) section above.
 

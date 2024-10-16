@@ -1,7 +1,16 @@
-# ===========================================================================================
-# Copyright (c)  2024 HealthyPhoton Technology. All rights reserved.
-# Licensed under the MIT License. See LICENSE file in the project root for details.
-# ===========================================================================================
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# Copyright 2024 HealthyPhoton Technology
 import datetime
 import threading
 import serial
@@ -17,12 +26,24 @@ stop_event = threading.Event()  # Events that control thread stopping
 # =======================================================================
 ser_wind = 0
 ser_ht8x00 = 0
+# ==============================================
+# Configure Raspberry PI and read data
+# ===============================================
 class softuart(threading.Thread):
+
     global data_dic
 
     """soft uart(ttl) based on pigpio wiht Rx & Tx GPIO need to be set"""
 
     def __init__(self, uart_name, rxPin, txPin, baud=9600, timeout=5):
+        """
+        Raspberry PI pin initial configuration
+        :param uart_name: instrument name
+        :param rxPin: rx Pin
+        :param txPin: tx Pin
+        :param baud: baud rate
+        :param timeout:
+        """
         threading.Thread.__init__(self)
         self._uart_name = uart_name
         self._rxPin = rxPin
@@ -57,8 +78,10 @@ class softuart(threading.Thread):
         self._pi.bb_serial_read_open(self._rxPin, self._baud, 8)
 
     def read(self):
-
-
+        """
+        Return serial data
+        :return: bytes[]
+        """
         count = 0
         text = []
         lt = 0
@@ -82,11 +105,13 @@ class softuart(threading.Thread):
                 break
         return bytes(text)
 
-
+# ======================================
+# Read and process data
+# ======================================
 def get_ht8x00_data():
     """
     Obtain HT8x00 data
-    :return:
+    :return:data_dic["HT8x00"]
     """
     global data_dic
     try:
@@ -105,7 +130,7 @@ def get_ht8x00_data():
 def get_wind_data():
     """
     Obtain anemometer data
-    :return:
+    :return: data_dic['wind']
     """
     global data_dic
     try:
@@ -152,8 +177,6 @@ def process_ht8x00_data(data):
     except Exception as e:
         print(f"Error while processing ht8x00 frame data: {e}")
 
-
-
 def process_wind_data(data):
     """
     Process the received frame of anemometer data
@@ -190,11 +213,12 @@ def read_data():
         get_ht8x00_data()
         get_wind_data()
         time.sleep(0.01)
-
+# ======================================
+# Save data
+# ======================================
 def write_data():
     """
-    Write Thread
-    :return:
+  Storage thread, 0.1 second run interval, identified data in data_dic
     """
 
     global last_file_time, current_file
@@ -240,8 +264,8 @@ def sanitize_data(data):
 
 def save_data_to_local(data):
     """
-    Save data to local
-    :param data:
+    Save data to local  and start the flux calculation software
+    :param data: dic
     :return:
     """
     global last_file_time, current_file,output_filename
@@ -278,6 +302,7 @@ def save_data_to_local(data):
         file.flush()
 
 
+
 if __name__ == "__main__":
 
     # =======================================================================
@@ -292,16 +317,16 @@ if __name__ == "__main__":
     current_file = None
 
     # =======================================================================
-    # Created folder
+    # Receive data
     # =======================================================================
     sys = "Windows" # Raspberry ; Windows ;
     try:
         print(f"The program running system is {sys}")
-        if sys == "Windows":
+        if sys == "Windows": # Running on windows 10/11 computer
             # Start the data reading thread
             read_thread = threading.Thread(target=read_data)
             read_thread.start()
-        elif sys == "Raspberry":
+        elif sys == "Raspberry": #Running on Raspberry pi 5
             # Start the data reading thread
             import RPi.GPIO as GPIO
             import pigpio

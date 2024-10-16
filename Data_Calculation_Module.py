@@ -1,51 +1,23 @@
-# ---------------------------------------------------------------------------
-# Open Asset Import Library (HealthyPhoton Technology)
-# ---------------------------------------------------------------------------
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# Copyright 2024 HealthyPhoton Technology
 
-# Copyright (c) 2006-2024, HealthyPhoton Technology
-
-# All rights reserved.
-
-# Redistribution and use of this software in source and binary forms,
-# with or without modification, are permitted provided that the following
-# conditions are met:
-
-# * Redistributions of source code must retain the above
-#   copyright notice, this list of conditions and the
-#   following disclaimer.
-
-# * Redistributions in binary form must reproduce the above
-#   copyright notice, this list of conditions and the
-#   following disclaimer in the documentation and/or other
-#   materials provided with the distribution.
-
-# * Neither the name of the HealthyPhoton Technology, nor the names of its
-#   contributors may be used to endorse or promote products
-#   derived from this software without specific prior
-#   written permission of the HealthyPhoton Technology .
-
-# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-# "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-# LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-# A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-# OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-# SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-# LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-# DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-# THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-# (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-# OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-# ---------------------------------------------------------------------------
- 
 import pandas as pd
 import numpy as np
 from datetime import datetime, timedelta
 import os
 import logging
 import re
-
-
-
 
 # 常量设置
 SAMPLING_FREQUENCY = 10  # Sample frequence unit:Hz
@@ -71,7 +43,7 @@ print(f"Raw Data path: {raw_data_dir}")
 print(f"EC FLUX path: {ec_flux_dir}")
 
 
-# 二次坐标转化
+# Secondary coordinate transformation
 def rotate_coordinates(u, v, w):
     '''
     rotation raw sonic wind speed
@@ -121,10 +93,10 @@ def extract_lagged_data_and_calculate_cov(lag, data, sampling_frequency):
 def calculate_turbulent_steady_state(cross_cov_results, w_prime, c_prime, sampling_frequency):
     """
     Calculation of turbulence stability
-    :param cross_cov_results:
-    :param w_prime:
-    :param c_prime:
-    :param sampling_frequency:
+    :param cross_cov_results:cross covariance results
+    :param w_prime:wind speed
+    :param c_prime:concentration
+    :param sampling_frequency: sampling frequency
     :return:
     """
     max_index = np.argmax(cross_cov_results)
@@ -175,11 +147,21 @@ def save_cross_covariance_results(time_data, cross_cov_results, output_path):
     else:
         df.to_csv(output_path, sep='\t', index=True, header=False, mode='a')
 
-
+def correct_sonic_temp(Ts,rho_h2o,rho_dry):
+    """
+    Sonic anemometer temperature correction
+    REF:HEPING LIU et al.(2000) New Equations For Sonic Temperature Variance And Buoyancy Heat Flux With An Omnidirectional Sonic Anemometer
+    :param Ts: sonic temperature
+    :param rho_h2o:  density of h2o
+    :param rho_dry:  density of dry air,
+    :return: air  temperature
+    """
+    return Ts/(1+0.51*rho_h2o/rho_dry)
 def run_data_calculation(filename="flag_file.txt",extra_data_path=""):
     """
     main function，calculation EC flux each half hour
     :param filename:
+    :param extra_data_path:
     :return:
     """
     logging.info("Starting data calculation module.")
@@ -296,4 +278,5 @@ def run_data_calculation(filename="flag_file.txt",extra_data_path=""):
 if __name__ == "__main__":
 
     print("Data_Calculation_Module.py")
-
+    filepath = r"./OpenFLux_data"
+    run_data_calculation()
