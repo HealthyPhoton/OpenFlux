@@ -12,9 +12,11 @@ The following is a brief overview of the key files and directories in this proje
 - Store raw data locally at half-hour intervals
 ### Flux Calculation Program
 - Secondary coordinate transformation
+- Sonic anemometer temperature correction
 - Turbulence stability assessment
 - Time lag calculation
 - Raw flux calculation
+
 ## Installation
 You can run this programme on **windows** and **linux** systems. We offer the option to use either a **PC** or **Raspberry Pi** as the hub of the system. OpenFlux is developed and run using Python 3.
 In the Python3 environment, we need the following configuration：
@@ -27,6 +29,31 @@ In the Python3 environment, we need the following configuration：
 For Raspberry Pi setups, additional packages are needed:
 - RPi
 - pigpio
+##  Offline calculation of eddy flux
+The original purpose of this program was to collect data in real-time and calculate 
+flux online. However, in certain situations, researchers may need to perform offline calculations, 
+adjust, and observe changes in the data. Therefore, during the design of the program, 
+a modular approach was adopted, with the flux calculation program being written as 
+a separate module.
+
+To independently run the eddy covariance flux calculation program, the following preparations are required:
+- Program driver code
+```python3
+if __name__ == "__main__":
+
+    print("Data_Calculation_Module.py")
+    filepath = r"./OpenFLux_data" # Set raw data path
+    run_data_calculation(filepath,) # Run procedure
+```
+- Raw data segmented into half-hour intervals
+- Columns identical to those in the online calculation software.After updating the new flux calculation program, this table may expand.
+
+| TIMESTAMP |real_time_concentration| ambient_temperature | transmittance | u_axis_speed | v_axis_speed | w_axis_speed | sonic_temp |
+|-- |--|--|--|--|--|--|--|
+|Required|Required|Optional|Optional|Required|Required|Required|Required|
+
+The results output by the program are consistent with those from the online calculation.
+
 ## Notice 
 The time in the flux calculation results depends on the start time of the raw data
 ## Result 

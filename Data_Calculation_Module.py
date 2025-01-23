@@ -278,5 +278,5 @@ def run_data_calculation(filename="flag_file.txt",extra_data_path=""):
 if __name__ == "__main__":
 
     print("Data_Calculation_Module.py")
-    filepath = r"./OpenFLux_data"
-    run_data_calculation()
+    # filepath = r"./OpenFLux_data"
+    # run_data_calculation()
