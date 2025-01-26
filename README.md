@@ -75,10 +75,10 @@ By contributing to this project, you agree that your contributions will be licen
 
 We'd like to extend our thanks to the following people for their contributions:
 
-- [@Weihao Shen](https://github.com/savage1997) – Programme design, systems integration
-- [@Wenfeng Ni](https://github.com/ContributorName2) – Monitoring program development 
-- [@Haiming Qian](https://github.com/ContributorName2) – Raw flux calculation programme development
-- [@Huaiping Wang](https://github.com/ContributorName2) – Raspberry Pi monitoring program development 
+- [@W.H Shen](https://github.com/savage1997) – Programme design, systems integration
+- [@W.F Ni](https://github.com/ContributorName2) – Monitoring program development 
+- [@H.M Qian](https://github.com/ContributorName2) – Raw flux calculation programme development
+- [@H.P Wang](https://github.com/ContributorName2) – Raspberry Pi monitoring program development 
 
 If you'd like to become a contributor, see the [Contributing](#contributing) section above.
 
@@ -93,7 +93,7 @@ By contributing to this project, you agree that your contributions will be licen
 
 For any questions, issues, or contributions, feel free to contact us:
 
-- Email: [weihao.shen@healthyphoton.com](mailto:weihao.shen@healthyphoton.com)
+
 - Email: [openflux@healthyphoton.com](mailto:openflux@healthyphoton.com)
 - GitHub Issues: [GitHub Issue Tracker](https://github.com/HealthyPhoton/OpenFlux/issues)
 ## Acknowledgements
