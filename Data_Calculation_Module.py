@@ -19,13 +19,13 @@ import os
 import logging
 import re
 
-# 常量设置
+# General setting
 SAMPLING_FREQUENCY = 10  # Sample frequence unit:Hz
 LAG_TIME = timedelta(seconds=1)  # Lag time unit:s
 BASE_DIR = r'.' # path
 raw_data_dir = os.path.join(BASE_DIR, "RawData")  # RawData folder name
 ec_flux_dir = os.path.join(BASE_DIR, "EC_FLUX")  # Result folder name
-# air_density = 1.225  # 空气密度, kg/m^3（常见的标准值）
+
 
 # Creating a Logger
 logging.basicConfig(filename='data_calculation.log', level=logging.INFO,
@@ -34,10 +34,7 @@ logging.basicConfig(filename='data_calculation.log', level=logging.INFO,
 # Make sure the EC_FLUX folder exists
 if not os.path.exists(ec_flux_dir):
     os.makedirs(ec_flux_dir)
-#
-# # 确保 RawData 文件夹存在
-# if not os.path.exists(raw_data_dir):
-#     os.makedirs(raw_data_dir)
+
 
 print(f"Raw Data path: {raw_data_dir}")
 print(f"EC FLUX path: {ec_flux_dir}")
@@ -46,7 +43,7 @@ print(f"EC FLUX path: {ec_flux_dir}")
 # Secondary coordinate transformation
 def rotate_coordinates(u, v, w):
     '''
-    rotation raw sonic wind speed
+    Rotation raw sonic wind speed
     :param u: unit：m/s
     :param v:unit：m/s
     :param w:unit：m/s
@@ -100,14 +97,14 @@ def calculate_turbulent_steady_state(cross_cov_results, w_prime, c_prime, sampli
     :return:
     """
     max_index = np.argmax(cross_cov_results)
-    max_lag = max_index - len(cross_cov_results) // 2  # 确定最大值对应的lag
+    max_lag = max_index - len(cross_cov_results) // 2  # Determine the lag corresponding to the maximum value
 
-    # 提取经过lag对齐后的原始数据的前5分钟数据，并计算协方差
+    # The first 5 minutes of the original data after lag alignment were extracted and the covariance was calculated
     previous_flux_mean = extract_lagged_data_and_calculate_cov(max_lag, {'w_prime': w_prime, 'c_prime': c_prime},
                                                                sampling_frequency)
     raw_flux = cross_cov_results[max_index]
 
-    # 计算turbulent_steady_state
+    # Calc turbulent steady state
     turbulent_steady_state = abs(previous_flux_mean - raw_flux) / abs(raw_flux)
     if turbulent_steady_state <= 0.3:
         turbulent_steady_state = 0
@@ -138,7 +135,7 @@ def save_cross_covariance_results(time_data, cross_cov_results, output_path):
     :return:
     """
     headers = [f"{round((i - len(cross_cov_results) // 2) * 0.1, 1)}s" for i in range(len(cross_cov_results))]
-    headers.insert(0, "time")  # 在开头插入 "time"
+    headers.insert(0, "time")
     cross_cov_results.insert(0, time_data)
     cross_cov_results = np.reshape(cross_cov_results ,[1,-1])
     df = pd.DataFrame(cross_cov_results,   columns=headers)
@@ -169,7 +166,7 @@ def run_data_calculation(filename="flag_file.txt",extra_data_path=""):
 
     # Verify that the original data file exists
     flag_file_path = os.path.join(BASE_DIR,"OpenFLux_data",filename)
-    # flag_file_path = os.path.join("./", "OpenFLux数据保存", filename)
+
 
     if not os.path.exists(flag_file_path):
         print(f"Flag bit file does not exist, end of program {flag_file_path}")

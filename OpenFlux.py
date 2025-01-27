@@ -33,7 +33,7 @@ class softuart(threading.Thread):
 
     global data_dic
 
-    """soft uart(ttl) based on pigpio wiht Rx & Tx GPIO need to be set"""
+    """Soft uart(ttl) based on pigpio wiht Rx & Tx GPIO need to be set"""
 
     def __init__(self, uart_name, rxPin, txPin, baud=9600, timeout=5):
         """
